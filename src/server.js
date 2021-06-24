@@ -97,6 +97,11 @@ export class Server extends EventEmitter {
         } else {
             this.port = options.port;
         }
+        if(options.host === undefined || options.host === null){
+            this.host = '127.0.0.1';
+        }else{
+            this.host = options.host
+        }
         this.prepareRequestFunction = options.prepareRequestFunction;
         this.authRealm = options.authRealm || DEFAULT_AUTH_REALM;
         this.verbose = !!options.verbose;
@@ -472,7 +477,7 @@ export class Server extends EventEmitter {
 
             this.server.on('error', onError);
             this.server.on('listening', onListening);
-            this.server.listen(this.port);
+            this.server.listen(this.port, this.host);
         });
 
         return nodeify(promise, callback);
